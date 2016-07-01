@@ -1,0 +1,12 @@
+apply plugin: "groovy"
+apply plugin: "maven"
+apply plugin: "java"
+
+repositories {
+    mavenCentral()
+    maven { url 'http://oss.sonatype.org/content/repositories/snapshots/' }
+}
+
+dependencies {
+    compile 'org.spockframework:spock-core:1.0-groovy-2.4'
+}
