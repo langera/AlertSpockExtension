@@ -32,6 +32,10 @@ or also modify the parameters to those alert implementations, e.g.
 ```
 This will say "The test failed" and then play the music file specificed (in this case 'Anarchy in the UK').
 
+For an example test that uses the Alert extension see:
+
+https://github.com/langera/AlertSpockExtension/blob/master/src/test/groovy/org/langera/spockextensions/alert/Example.groovy
+
 
 
 
