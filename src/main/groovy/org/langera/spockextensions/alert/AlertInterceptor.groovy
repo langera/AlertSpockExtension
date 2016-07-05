@@ -1,27 +1,20 @@
 package org.langera.spockextensions.alert
 
 import org.langera.spockextensions.alert.alerts.Alerter
-import org.langera.spockextensions.alert.alerts.Say
 import org.spockframework.runtime.extension.IMethodInterceptor
 import org.spockframework.runtime.extension.IMethodInvocation
 import org.spockframework.runtime.model.FeatureInfo
 
 class AlertInterceptor implements IMethodInterceptor {
 
-    public static final Say DEFAULT_ALERTER = new Say()
-
-    private final Alert alert
+    private final String[] params
     private final FeatureInfo featureInfo
-    private final Alerter alerter
+    private final Alerter[] alerters
 
-    AlertInterceptor(Alert alert, FeatureInfo featureInfo) {
-        this(alert, featureInfo, DEFAULT_ALERTER)
-    }
-
-    AlertInterceptor(Alert alert, FeatureInfo featureInfo, Alerter alerter) {
-        this.alert = alert
+    AlertInterceptor(Alert alert, FeatureInfo featureInfo, Alerter... alerters) {
+        this.params = alert.params()
         this.featureInfo = featureInfo
-        this.alerter = alerter
+        this.alerters = alerters
     }
 
     @Override
@@ -30,9 +23,11 @@ class AlertInterceptor implements IMethodInterceptor {
             invocation.proceed()
         } catch (Throwable t) {
             def methodName = featureInfo.getFeatureMethod().name
-            try {
-                alerter.alert(alert.value(), methodName)
-            } catch (ignored) {}
+            alerters.each { alerter ->
+                try {
+                    alerter.alert(params, methodName)
+                } catch (ignored) {}
+            }
             throw t
         }
     }}

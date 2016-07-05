@@ -7,16 +7,17 @@ import org.spockframework.runtime.model.MethodInfo
 import spock.lang.Specification
 import spock.lang.Subject
 
-@Alert('alert value')
+@Alert
 class AlertInterceptorSpec extends Specification {
 
-    Alerter alerter = Mock()
+    Alerter alerter1 = Mock()
+    Alerter alerter2 = Mock()
     FeatureInfo feature = Mock()
     IMethodInvocation invocation = Mock()
 
     @Subject
     AlertInterceptor interceptor =
-            new AlertInterceptor(getClass().getAnnotation(Alert), feature, alerter)
+            new AlertInterceptor(getClass().getAnnotation(Alert), feature, alerter1, alerter2)
 
     def 'when invocation succeeds no alert is fired'() {
         when:
@@ -30,13 +31,16 @@ class AlertInterceptorSpec extends Specification {
             MethodInfo methodInfo = new MethodInfo()
             methodInfo.setName('method name')
             feature.getFeatureMethod() >> methodInfo
-
         when:
             interceptor.intercept(invocation)
         then:
             1 * invocation.proceed() >> { throw new RuntimeException() }
         then:
             thrown RuntimeException
-            1 * alerter.alert('alert value', 'method name')
+        then:
+            1 * alerter1.alert([], 'method name')
+        then:
+            1 * alerter2.alert([], 'method name')
     }
 }
+

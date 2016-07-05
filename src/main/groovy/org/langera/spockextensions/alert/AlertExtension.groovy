@@ -1,5 +1,6 @@
 package org.langera.spockextensions.alert
 
+import org.langera.spockextensions.alert.alerts.Alerter
 import org.spockframework.runtime.extension.AbstractAnnotationDrivenExtension
 import org.spockframework.runtime.model.FeatureInfo
 import org.spockframework.runtime.model.SpecInfo
@@ -17,7 +18,8 @@ class AlertExtension extends AbstractAnnotationDrivenExtension<Alert> {
 
     @Override
     void visitFeatureAnnotation(Alert alert, FeatureInfo feature) {
-        def interceptor = new AlertInterceptor(alert, feature)
+        Alerter[] alerters = alert.value().collect { it.alerter }
+        def interceptor = new AlertInterceptor(alert, feature, alerters)
         feature.getFeatureMethod().addInterceptor(interceptor)
     }
 }

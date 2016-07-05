@@ -7,8 +7,10 @@ import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
 
+import static org.langera.spockextensions.alert.AlertType.SAY
+
 /**
- *  idea "borrowed" from kensipe spock presentation javaone 2014
+ *  original idea "borrowed" from kensipe spock presentation javaone 2014
  */
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -16,5 +18,6 @@ import java.lang.annotation.Target
 @ExtensionAnnotation(AlertExtension)
 public @interface Alert {
 
-    String value() default ''
+    AlertType[] value() default [ SAY ]
+    String[] params() default []
 }

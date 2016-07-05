@@ -1,7 +1,6 @@
 package org.langera.spockextensions.alert.alerts
 
-
 interface Alerter {
 
-    void alert(String annotationValue, String methodName);
+    void alert(String[] params, String methodName);
 }
