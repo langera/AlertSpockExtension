@@ -36,6 +36,7 @@ For an example test that uses the Alert extension see:
 
 https://github.com/langera/AlertSpockExtension/blob/master/src/test/groovy/org/langera/spockextensions/alert/Example.groovy
 
+** The current Alerters are using Mac-OSX specific commands and so will only work on a Mac**
 
 
 
